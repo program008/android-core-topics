@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/blankFragment">
+
+    <include app:graph="@navigation/included_graph" />
+    <fragment
+        android:id="@+id/blankFragment"
+        android:name="com.example.navigation.BlankFragment"
+        android:label="@string/fragment_blank"
+        tools:layout="@layout/fragment_blank">
+        <action
+            android:id="@+id/action_blankFragment_to_blankFragment2"
+            app:destination="@id/navigation" />
+        <action
+            android:id="@+id/action_included_graph"
+            app:destination="@id/included_graph" />
+        <action
+            android:id="@+id/action_blankFragment_to_blankFragment4"
+            app:destination="@id/blankFragment4"/>
+
+    </fragment>
+    <!--Create a destination from a DialogFragment-->
+    <!--    <dialog-->
+    <!--        android:id="@+id/my_dialog_fragment"-->
+    <!--        android:name="androidx.navigation.myapp.MyDialogFragment">-->
+    <!--        <argument android:name="myarg" android:defaultValue="@null" />-->
+    <!--        <action-->
+    <!--            android:id="@+id/myaction"-->
+    <!--            app:destination="@+id/another_destination"/>-->
+    <!--    </dialog>-->
+    <!--Create a destination from a DialogFragment-->
+
+    <activity
+        android:id="@+id/sampleActivityDestination"
+        android:name="com.example.navigation.DestinationActivity"
+        android:label="sampleActivityDestination" />
+    <navigation
+        android:id="@+id/navigation"
+        app:startDestination="@id/blankFragment2">
+        <fragment
+            android:id="@+id/blankFragment2"
+            android:name="com.example.navigation.BlankFragment2"
+            android:label="fragment_blank2"
+            tools:layout="@layout/fragment_blank2">
+            <action
+                android:id="@+id/action_blankFragment2_to_blankFragment3"
+                app:destination="@id/blankFragment3" />
+        </fragment>
+        <fragment
+            android:id="@+id/blankFragment3"
+            android:name="com.example.navigation.BlankFragment3"
+            android:label="fragment_blank3"
+            tools:layout="@layout/fragment_blank3" />
+    </navigation>
+    <fragment
+        android:id="@+id/blankFragment4"
+        android:name="com.example.navigation.BlankFragment4"
+        android:label="fragment_blank4"
+        tools:layout="@layout/fragment_blank4">
+        <argument
+            android:name="myArg"
+            android:defaultValue="1"
+            app:argType="integer" />
+    </fragment>
+    <action
+        android:id="@+id/action_global_blankFragment"
+        app:destination="@id/blankFragment" />
+
+</navigation>
