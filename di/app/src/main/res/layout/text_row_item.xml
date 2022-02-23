@@ -14,9 +14,9 @@
   ~ limitations under the License.
   -->
 
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/main_container"
+<TextView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/text"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-</FrameLayout>
+    android:layout_height="wrap_content"
+    android:padding="8dp"/>
