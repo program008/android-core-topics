@@ -16,9 +16,7 @@
 
 package com.example.di.data
 
-import com.example.di.data.Log
-import com.example.di.data.LoggerDataSource
-import java.util.LinkedList
+import java.util.*
 import javax.inject.Inject
 
 class LoggerInMemoryDataSource @Inject constructor() : LoggerDataSource {

@@ -16,11 +16,7 @@
 
 package com.example.di.contentprovider
 
-import android.content.ContentProvider
-import android.content.ContentUris
-import android.content.ContentValues
-import android.content.Context
-import android.content.UriMatcher
+import android.content.*
 import android.database.Cursor
 import android.net.Uri
 import com.example.di.data.LogDao
@@ -28,7 +24,6 @@ import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
 import dagger.hilt.android.EntryPointAccessors
 import dagger.hilt.components.SingletonComponent
-import java.lang.UnsupportedOperationException
 
 /** The authority of this content provider.  */
 private const val LOGS_TABLE = "logs"

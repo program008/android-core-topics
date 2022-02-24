@@ -18,9 +18,9 @@ package com.example.di.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.example.di.R
 import com.example.di.navigator.AppNavigator
 import com.example.di.navigator.Screens
-import com.example.di.R
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 

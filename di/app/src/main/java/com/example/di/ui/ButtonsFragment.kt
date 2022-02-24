@@ -22,11 +22,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.fragment.app.Fragment
+import com.example.di.R
 import com.example.di.data.LoggerDataSource
 import com.example.di.di.InMemoryLogger
 import com.example.di.navigator.AppNavigator
 import com.example.di.navigator.Screens
-import com.example.di.R
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 

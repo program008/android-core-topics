@@ -16,8 +16,6 @@
 
 package com.example.di.data
 
-import com.example.di.data.Log
-
 // Common interface for Logger data sources.
 interface LoggerDataSource {
     fun addLog(msg: String)

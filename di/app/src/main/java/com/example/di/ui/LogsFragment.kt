@@ -24,10 +24,10 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
+import com.example.di.R
 import com.example.di.data.Log
 import com.example.di.data.LoggerDataSource
 import com.example.di.di.InMemoryLogger
-import com.example.di.R
 import com.example.di.util.DateFormatter
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject

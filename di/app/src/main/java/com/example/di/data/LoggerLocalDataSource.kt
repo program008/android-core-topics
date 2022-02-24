@@ -18,9 +18,6 @@ package com.example.di.data
 
 import android.os.Handler
 import android.os.Looper
-import com.example.di.data.Log
-import com.example.di.data.LogDao
-import com.example.di.data.LoggerDataSource
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import javax.inject.Inject
