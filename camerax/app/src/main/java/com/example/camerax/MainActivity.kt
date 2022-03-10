@@ -1,27 +1,31 @@
 package com.example.camerax
 
 import android.Manifest
+import android.R
 import android.content.ContentValues
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.video.*
 import androidx.camera.video.VideoCapture
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.PermissionChecker
 import com.example.camerax.databinding.ActivityMainBinding
+import pub.devrel.easypermissions.AppSettingsDialog
+import pub.devrel.easypermissions.EasyPermissions
 import java.nio.ByteBuffer
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
+
 
 typealias LumaListener = (luma: Double) -> Unit
 
@@ -31,7 +35,7 @@ typealias LumaListener = (luma: Double) -> Unit
  * ② 权限满足则直接操作接下来的任务，如果不满足则请求权限，
  * ③ 监听权限请求结果，如果满足则操作接下来的任务，否则提示用户权限不可用
  */
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(),EasyPermissions.PermissionCallbacks {
     private lateinit var viewBinding: ActivityMainBinding
 
     private var imageCapture: ImageCapture? = null
@@ -47,13 +51,20 @@ class MainActivity : AppCompatActivity() {
         setContentView(viewBinding.root)
 
         // Request camera permissions
-        if (allPermissionsGranted()) {
+//        if (allPermissionsGranted()) {
+//            startCamera()
+//        } else {
+//            //请求指定权限集
+//            ActivityCompat.requestPermissions(
+//                this, REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS
+//            )
+//        }
+        if (EasyPermissions.hasPermissions(this, *REQUIRED_PERMISSIONS)) {
             startCamera()
         } else {
-            //请求指定权限集
-            ActivityCompat.requestPermissions(
-                this, REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS
-            )
+            // 没有权限，进行权限请求
+            EasyPermissions.requestPermissions(this, "相机和录音权限相关",
+                REQUEST_CODE_PERMISSIONS, *REQUIRED_PERMISSIONS)
         }
 
         // Set up the listeners for take photo and video capture buttons
@@ -152,7 +163,7 @@ class MainActivity : AppCompatActivity() {
                 when (recordEvent) {
                     is VideoRecordEvent.Start -> {
                         viewBinding.videoCaptureButton.apply {
-                            text = getString(R.string.stop_capture)
+                            text = "stop capture"
                             isEnabled = true
                         }
                     }
@@ -172,7 +183,7 @@ class MainActivity : AppCompatActivity() {
                             )
                         }
                         viewBinding.videoCaptureButton.apply {
-                            text = getString(R.string.start_capture)
+                            text = "start capture"
                             isEnabled = true
                         }
                     }
@@ -257,17 +268,45 @@ class MainActivity : AppCompatActivity() {
         IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == REQUEST_CODE_PERMISSIONS) {
-            if (allPermissionsGranted()) {
-                startCamera()
-            } else {
-                Toast.makeText(
-                    this,
-                    "Permissions not granted by the user.",
-                    Toast.LENGTH_SHORT
-                ).show()
-                finish()
-            }
+//        if (requestCode == REQUEST_CODE_PERMISSIONS) {
+//            if (allPermissionsGranted()) {
+//                startCamera()
+//            } else {
+//                Toast.makeText(
+//                    this,
+//                    "Permissions not granted by the user.",
+//                    Toast.LENGTH_SHORT
+//                ).show()
+//                finish()
+//            }
+//        }
+        // 将结果转发给 EasyPermissions
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this)
+    }
+
+    override fun onPermissionsGranted(requestCode: Int, perms: MutableList<String>) {
+        Log.e(TAG, "onPermissionsGranted: $requestCode $perms")
+    }
+
+    override fun onPermissionsDenied(requestCode: Int, perms: MutableList<String>) {
+        Log.d(TAG, "onPermissionsDenied:" + requestCode.toString() + ":" + perms.size)
+
+        // 可选）检查用户是否拒绝了任何权限并选中了“永不再次询问”。
+        //这将显示一个对话框，指导他们启用应用程序设置中的权限。
+        if (EasyPermissions.somePermissionPermanentlyDenied(this, perms)) {
+            AppSettingsDialog.Builder(this).build().show()
+        }
+
+    }
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == AppSettingsDialog.DEFAULT_SETTINGS_REQ_CODE) {
+            //用户从应用设置屏幕返回后，执行一些操作，例如显示Toast.
+            Toast.makeText(
+                this,
+                "returned_from_app_settings_to_activity",
+                Toast.LENGTH_SHORT
+            ).show()
         }
     }
 
